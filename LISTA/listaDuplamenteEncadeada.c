@@ -23,6 +23,7 @@ typedef struct End
 void push(Node **ini, Data *data, End **end);
 Data *creatData(char *book);
 int len(Node *ini);
+char *Index(Node *list, int ID);
 
 int main() {
     setlocale(LC_ALL, "pt_BR.utf8");
@@ -30,18 +31,12 @@ int main() {
     End *endList = NULL;
 
     // Adicionando um livro e apontando para a lista de fim
-    push(&Books, creatData("sandman"), &endList);
-
-    printf("\nPrimeira interação. Conteúdo de ini: %s\nConteúdo de end: %s",
-    Books->data->book, endList->end->data->book);
-
-    printf("\n\ntamanho depois da primeira interacao: %d", len(Books));
-   
+    push(&Books, creatData("sandman"), &endList); 
     push(&Books, creatData("vademecum"), &endList);
-    printf("\nSegunda interação. Conteúdo de ini: %s\nConteúdo de end: %s",
-    Books->data->book, endList->end->data->book);
     
-    printf("\n\ntamanho depois da segunda interacao: %d", len(Books));
+    printf("\n\n%s",Index(Books,1));
+    
+    
     return 0;
 }
 
@@ -59,6 +54,28 @@ int len(Node *ini){
     }
 
     return tam;
+    
+}
+
+char *Index(Node *list, int ID){
+    if(list == NULL){
+        return NULL;
+    }
+
+    int id=0;
+    while (list !=NULL)
+    {   
+        
+        if(id == ID){
+            return list->data->book;
+        }else{
+            list = list->next;
+            id++;
+        }
+
+    }
+
+    return NULL;
     
 }
 
