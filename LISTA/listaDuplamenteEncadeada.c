@@ -22,6 +22,7 @@ typedef struct End
 
 void push(Node **ini, Data *data, End **end);
 Data *creatData(char *book);
+int len(Node *ini);
 
 int main() {
     setlocale(LC_ALL, "pt_BR.utf8");
@@ -34,12 +35,31 @@ int main() {
     printf("\nPrimeira interação. Conteúdo de ini: %s\nConteúdo de end: %s",
     Books->data->book, endList->end->data->book);
 
+    printf("\n\ntamanho depois da primeira interacao: %d", len(Books));
    
     push(&Books, creatData("vademecum"), &endList);
     printf("\nSegunda interação. Conteúdo de ini: %s\nConteúdo de end: %s",
     Books->data->book, endList->end->data->book);
-
+    
+    printf("\n\ntamanho depois da segunda interacao: %d", len(Books));
     return 0;
+}
+
+int len(Node *ini){
+    int tam = 0;
+
+    if(ini == NULL){
+        return 0;
+    }
+
+    while (ini != NULL)
+    {
+        tam++;
+        ini = ini->next;    
+    }
+
+    return tam;
+    
 }
 
 Data *creatData(char *book) {
@@ -105,19 +125,9 @@ void push(Node **ini, Data *data, End **end) {
        
     } else {
         
-        Node *current = *ini;
-
-        // Encontra o último nó na lista
-        while (current->next != NULL) {
-            current = current->next;
-        }
-
-        // Adiciona o novo nó após o último nó existente
-        current->next = newNode;
-        newNode->previous = current;
-
-        // Atualiza o ponteiro de fim para apontar para o novo nó
+        (*end)->end->next = newNode;
+        newNode->previous = (*end)->end;
+        (*end)->end = newNode; 
         
-        (*end)->end = newNode;
     }
 }
