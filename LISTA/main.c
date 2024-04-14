@@ -55,6 +55,7 @@ void freeMemory(List **ini);
 int main(){
     List *livro = NULL;
     int tam = sizeof(titulos)/sizeof(titulos[0]);
+    char *string;
     int i = 0;
 
     int opcao;
@@ -69,12 +70,26 @@ int main(){
         printf("0. Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
+        getchar(); 
 
         switch (opcao) {
             case 1:
               
-                
-                for(i = 0; i< tam;i++)addLivro(&livro,titulos[i]);
+                i = 0;
+                while (i == 0) {
+                    printf("\ndigite: ");
+                    string = (char *)malloc(30 * sizeof(char)); // Alocação corrigida
+                    if (string == NULL) {
+                        printf("Erro ao alocar memória.\n");
+                        return 1; // Saia do programa se a alocação falhar
+                    }
+                    fgets(string, 20, stdin);
+                    // Adicione seu código para addLivro aqui
+                    addLivro(&livro,string);
+                    printf("\n0 para sair: ");
+                    scanf("%d", &i);
+                    getchar(); // Limpa o buffer de entrada
+                }
                 
                 break;
             case 2:
@@ -237,13 +252,16 @@ void addLivro(List **ini, char *string){
         printf("\nGravado com sucesso");
     }else{
 
-
+        int no = 1;
         
 
         List *aux = *ini;                                                        
                                                                                
         while (aux->next != NULL) {
+
             aux = aux->next;
+            printf("\nNo: %d",no);
+            no++;
         }
 
         aux->next = atual;
