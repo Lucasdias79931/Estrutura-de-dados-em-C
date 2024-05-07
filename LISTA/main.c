@@ -40,6 +40,23 @@ typedef struct List
     struct List *next; 
 }List;
 
+void reverese(List **init){
+    if((*init)==NULL) return;
+
+    List *prev = NULL;
+    List *current = *init;
+    List *next_node = NULL;
+
+    while (current != NULL){
+        next_node = current->next;
+        current->next = prev;
+        prev = current;
+        current = next_node;
+    }
+    
+    *init = prev;
+    
+}
 void addLivro(List **ini, char *string);
 
 void printList(List *ini);
@@ -60,7 +77,7 @@ int main(){
 
     int opcao;
 
-    do {
+    /*do {
         printf("\nMenu:\n");
         printf("1. Adicionar livro\n");
         printf("2.\n");
@@ -110,8 +127,22 @@ int main(){
             default:
                 printf("Opção inválida!\n");
         }
-    } while (opcao != 0);
+    } while (opcao != 0);*/
    
+
+
+
+    addLivro(&livro,"sandman");
+    addLivro(&livro,"sqlserver");
+    addLivro(&livro,"ubunto");
+    printList(livro);
+
+    reverese(&livro);
+
+    printList(livro);
+
+
+
     return 0;
 }
 

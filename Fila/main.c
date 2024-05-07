@@ -66,7 +66,9 @@ int main() {
     }
     printf("\nTamanho da fila: %d\n", len(books));
 
+
     
+
     destroyFila(books);
 
     return 0;
