@@ -67,7 +67,7 @@ int main() {
     printf("\nTamanho da fila: %d\n", len(books));
 
 
-    
+
 
     destroyFila(books);
 
@@ -93,7 +93,12 @@ char *dequeue(Fila *fila){
     if(fila->front == NULL)return NULL;
 
     Node *current = fila->front;
-    char *book;
+    
+    char *book = (char *)malloc((strlen(fila->front->data->book) + 1) * sizeof(char)); // Aloca memória para o livro
+    if (book == NULL) {
+        printf("\nErro na alocação de memória para o livro!");
+        return NULL;
+    }
     strcpy(book,current->data->book);
 
     if(fila->end == fila->front){
