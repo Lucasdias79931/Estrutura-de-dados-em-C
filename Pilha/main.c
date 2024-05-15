@@ -23,35 +23,38 @@ typedef struct Stack
     Node *top;
 }Stack;
 
-bool isEpty(Stack *stack);
+bool isEmpty(Stack *stack);
 Data *createData(char *book);
 void initializeStack(Stack *stack);
 void push(Stack *stack, Data *data);
 char *pop(Stack *stack);
-
-
-void print(Stack *stack){
-        Node *current = stack->base;
-
-    while(current != NULL){ 
-        printf("\n%s",current->data->book);
-        current = current->next;
-    }
-}
+void reverse(Stack *stack);
+void print(Stack *stack);
+char *peek(Stack *stack);
+int size(Stack *stack);
+void clear(Stack *stack);
+int search(Stack *stack, char* item);
 int main(){
 
     Stack *stack = (Stack *) malloc(sizeof(Stack));
+    printf("\n Antes de inicializar a stack:%d",size(stack));
     initializeStack(stack);
 
     push(stack,createData("sandman"));
     push(stack,createData("ana"));
     push(stack,createData("paulo"));
 
-    print(stack);
+    printf("\ntamanho depois de 3 push:%d\n",size(stack));
+    printf("\n livro do topo:%s",peek(stack));
 
-    char *temp = pop(stack);
+    reverse(stack);
+    
+    printf("\n livro do topo depois de usar o reverse:%s\n",peek(stack));
 
-    print(stack);
+    clear(stack);
+    printf("\nStack depois de de clear:%d",size(stack));
+    
+
     
 
     
@@ -62,12 +65,96 @@ int main(){
 }
 
 
+int search(Stack *stack, char* item){
+    if(isEmpty(stack))return 1;
+    int posi = 0;
+    
+    Stack* aux= stack;
+    while (aux->base != NULL)
+    {
+        char *temp = pop(aux);
+        if(strcmp(temp,aux->top) == 0){
+            return posi;
+        }else{
+            posi--;
+        }
+    }
+
+    return 1;
+    
+
+}
+
+
+void clear(Stack *stack){
+    if(isEmpty(stack)) return;
+
+    while (stack->base != NULL)
+    {
+        char *temp = pop(stack);
+    }
+    
+}
+
+int size(Stack *stack){
+    if(isEmpty(stack))return 0;
+    int tam = 0;
+
+    Node *current = stack->base;
+    while (current != NULL)
+    {
+        tam++;
+        current = current->next;
+    }
+
+    return tam;
+      
+    
+
+}
+
+char *peek(Stack *stack){
+    if(stack->base == NULL)return NULL;
+
+    return stack->top->data->book;
+}
+
+void print(Stack *stack){
+    Node *current = stack->base;
+
+    while(current != NULL){ 
+        printf("\n%s",current->data->book);
+        current = current->next;
+    }
+}
+
+void reverse(Stack *stack){
+    if(stack->base == NULL || stack->base == stack->top) return;
+
+    Stack *aux = (Stack *)malloc(sizeof(Stack));
+    if(aux == NULL){
+        printf("\nErro de alocacao para stack auxiliar");
+        return;
+    }
+    initializeStack(aux);
+    while(stack->base != NULL)push(aux,createData(pop(stack)));
+
+    
+    while (aux->base != NULL){
+        push(stack,aux->base->data);
+        aux->base = aux->base->next;
+    }
+   
+    
+}
+
+
 void initializeStack(Stack *stack){
     stack->base = NULL;
     stack->top = NULL;
 }
 
-bool isEpty(Stack *stack){
+bool isEmpty(Stack *stack){
     return stack->base == NULL;
 }
 Data *createData(char *book) {
@@ -107,7 +194,7 @@ void push(Stack *stack, Data *data){
         stack->top = newNode;
     }else{
         stack->top->next = newNode;
-        stack->top = newNode;
+        stack->top = newNode;  
     }
 
 }
@@ -151,7 +238,7 @@ char *pop(Stack *stack) {
 /*
 
 
-
+ 
 
 push(item): Adiciona um elemento ao topo da pilha.
 pop(): Remove e retorna o elemento no topo da pilha.
