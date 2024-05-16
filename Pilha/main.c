@@ -34,18 +34,45 @@ char *peek(Stack *stack);
 int size(Stack *stack);
 void clear(Stack *stack);
 int search(Stack *stack, char* item);
+Stack *copyStack(Stack *stack){
+
+    Stack *newStack = (Stack *) malloc(sizeof(Stack));
+    
+    if(newStack == NULL){
+        printf("\nErro de alocacao!");
+    }else{
+        printf("\nSucesso na alocação!");
+    }
+
+    initializeStack(newStack);
+    
+    Node *currentStackOrigin = stack->base;
+    while (currentStackOrigin != NULL)
+    {
+        push(newStack,createData(currentStackOrigin->data->book));
+        currentStackOrigin = currentStackOrigin->next;
+    }
+    
+        
+
+
+   
+
+
+    return newStack;
+}
 
 int main(){
 
     Stack *stack = (Stack *) malloc(sizeof(Stack));
-    printf("\n Antes de inicializar a stack:%d",size(stack));
+    if(stack == NULL)exit(1);
     initializeStack(stack);
 
     push(stack,createData("sandman"));
     push(stack,createData("ana"));
     push(stack,createData("paulo"));
     
-    printf("\nposicao do livro 'paulo':%i ",search(stack,"paulo"));
+    //printf("\nposicao do livro 'paulo':%i ",search(stack,"paulo"));
 
    /* printf("\ntamanho depois de 3 push:%d\n",size(stack));
     printf("\n livro do topo:%s",peek(stack));
@@ -59,7 +86,14 @@ int main(){
     
 
     
-
+    //copiar pilha:
+    Stack *newStack = copyStack(stack);
+    printf("\nStack original!\n");
+    print(stack);
+    printf("\n");
+    printf("\nnew stack");
+    print(newStack);
+    printf("\n");
     
     
     
@@ -124,6 +158,11 @@ char *peek(Stack *stack){
 }
 
 void print(Stack *stack){
+    if(stack->base == NULL){
+        printf("\nStack vazia!");
+        return;
+    }
+
     Node *current = stack->base;
 
     while(current != NULL){ 
