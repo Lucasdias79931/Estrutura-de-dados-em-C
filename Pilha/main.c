@@ -34,6 +34,130 @@ char *peek(Stack *stack);
 int size(Stack *stack);
 void clear(Stack *stack);
 int search(Stack *stack, char* item);
+Stack *copyStack(Stack *stack);
+Stack *mergeStack(Stack *stackOne, Stack *stackTwo);
+Node *iterate(Stack *stack,int index){
+    if(stack->base == NULL) return NULL;
+    
+    if(index < 0 || index > size(stack))return NULL;
+    int tam =0;
+
+    
+    Node *current = stack->base;
+    
+    while(index != tam){
+        current = current->next;
+        tam++;
+    }
+    
+    return current;
+    
+}
+int main(){
+
+    Stack *stack = (Stack *) malloc(sizeof(Stack));
+    if(stack == NULL)exit(1);
+    initializeStack(stack);
+
+    push(stack,createData("sandman"));
+    push(stack,createData("ana"));
+    push(stack,createData("paulo"));
+    
+    //printf("\nposicao do livro 'paulo':%i ",search(stack,"paulo"));
+
+   /* printf("\ntamanho depois de 3 push:%d\n",size(stack));
+    printf("\n livro do topo:%s",peek(stack));
+
+    reverse(stack);
+    
+    printf("\n livro do topo depois de usar o reverse:%s\n",peek(stack));
+
+    clear(stack);
+    printf("\nStack depois de de clear:%d",size(stack));*/
+    
+
+    
+    //copiar pilha:
+    /*Stack *newStack = copyStack(stack);
+    printf("\nStack original!\n");
+    print(stack);
+    printf("\n");
+    printf("\nnew stack");
+    print(newStack);
+    printf("\n");*/
+    
+    /*
+    Stack *stackTwo = (Stack *) malloc(sizeof(Stack));
+    initializeStack(stackTwo);
+    
+    push(stackTwo,createData("black hole"));
+    push(stackTwo,createData("batman"));
+    push(stackTwo,createData("Demolidor"));
+    
+
+
+    printf("\nStack One");
+    print(stack);
+    printf("\n");
+    printf("\nStack Two");
+    print(stackTwo);
+
+    
+    Stack *stackThree = mergeStack(stack,stackTwo);
+    printf("\n");
+    printf("\nStack One after merge");
+    print(stackThree);
+    printf("\n");
+    */
+
+    
+    printf("\ninterando a partir da base até o top");
+    int i = 0;
+    for(i = 0; i< size(stack);i++){
+        Node *current = iterate(stack,i);
+
+        printf("\nNode %d, Book:%s",i+1,current->data->book);
+    }
+
+    
+    return 0;
+}
+
+
+Stack *mergeStack(Stack *stackOne, Stack *stackTwo){
+    if(stackOne->base == NULL || stackTwo->base == NULL){
+        printf("\nUma das listas ou as duas são nulas");
+        return NULL;
+    }
+    Stack *newStack = (Stack *)malloc(sizeof(Stack));
+
+    
+    if(newStack == NULL){
+        printf("\nErro de alocacao!");
+    }else{
+        printf("\nSucesso na alocação!");
+    }
+
+    initializeStack(newStack);
+    
+    Node *currentStackOrigin = stackOne->base;
+    while (currentStackOrigin != NULL)
+    {
+        push(newStack,createData(currentStackOrigin->data->book));
+        currentStackOrigin = currentStackOrigin->next;
+    }
+
+    currentStackOrigin = stackTwo->base;
+    while (currentStackOrigin != NULL)
+    {
+        push(newStack,createData(currentStackOrigin->data->book));
+        currentStackOrigin = currentStackOrigin->next;
+    }
+
+    return newStack;
+    
+}
+
 Stack *copyStack(Stack *stack){
 
     Stack *newStack = (Stack *) malloc(sizeof(Stack));
@@ -60,45 +184,6 @@ Stack *copyStack(Stack *stack){
 
 
     return newStack;
-}
-
-int main(){
-
-    Stack *stack = (Stack *) malloc(sizeof(Stack));
-    if(stack == NULL)exit(1);
-    initializeStack(stack);
-
-    push(stack,createData("sandman"));
-    push(stack,createData("ana"));
-    push(stack,createData("paulo"));
-    
-    //printf("\nposicao do livro 'paulo':%i ",search(stack,"paulo"));
-
-   /* printf("\ntamanho depois de 3 push:%d\n",size(stack));
-    printf("\n livro do topo:%s",peek(stack));
-
-    reverse(stack);
-    
-    printf("\n livro do topo depois de usar o reverse:%s\n",peek(stack));
-
-    clear(stack);
-    printf("\nStack depois de de clear:%d",size(stack));*/
-    
-
-    
-    //copiar pilha:
-    Stack *newStack = copyStack(stack);
-    printf("\nStack original!\n");
-    print(stack);
-    printf("\n");
-    printf("\nnew stack");
-    print(newStack);
-    printf("\n");
-    
-    
-    
-
-    return 0;
 }
 
 
