@@ -34,6 +34,7 @@ char *peek(Stack *stack);
 int size(Stack *stack);
 void clear(Stack *stack);
 int search(Stack *stack, char* item);
+
 int main(){
 
     Stack *stack = (Stack *) malloc(sizeof(Stack));
@@ -43,8 +44,10 @@ int main(){
     push(stack,createData("sandman"));
     push(stack,createData("ana"));
     push(stack,createData("paulo"));
+    
+    printf("\nposicao do livro 'paulo':%i ",search(stack,"paulo"));
 
-    printf("\ntamanho depois de 3 push:%d\n",size(stack));
+   /* printf("\ntamanho depois de 3 push:%d\n",size(stack));
     printf("\n livro do topo:%s",peek(stack));
 
     reverse(stack);
@@ -52,7 +55,7 @@ int main(){
     printf("\n livro do topo depois de usar o reverse:%s\n",peek(stack));
 
     clear(stack);
-    printf("\nStack depois de de clear:%d",size(stack));
+    printf("\nStack depois de de clear:%d",size(stack));*/
     
 
     
@@ -67,17 +70,18 @@ int main(){
 
 int search(Stack *stack, char* item){
     if(isEmpty(stack))return 1;
-    int posi = 0;
     
-    Stack* aux= stack;
-    while (aux->base != NULL)
-    {
-        char *temp = pop(aux);
-        if(strcmp(temp,aux->top) == 0){
-            return posi;
-        }else{
-            posi--;
+    
+    int tam =  (- size(stack)) + 1;
+    
+    Node* current = stack->base;
+    while(current != NULL){
+        if(strcmp(current->data->book,item) == 0){
+            return tam;
         }
+
+        tam++;
+        current = current->next;
     }
 
     return 1;
